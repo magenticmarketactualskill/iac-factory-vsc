@@ -1,0 +1,147 @@
+{
+  "name": "iac-factory-vsc",
+  "displayName": "IAC Factory",
+  "description": "VS Code extension for iac-factory - Infrastructure as Code Factory with Pulumi and Mermaid diagram support",
+  "version": "1.0.0",
+  "publisher": "iac-factory",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Visualization"
+  ],
+  "keywords": [
+    "iac",
+    "infrastructure",
+    "pulumi",
+    "mermaid",
+    "c4",
+    "diagrams",
+    "python"
+  ],
+  "activationEvents": [
+    "onLanguage:python",
+    "onCommand:iacFactory.generateDiagram",
+    "onCommand:iacFactory.generatePulumi",
+    "onCommand:iacFactory.previewDiagram"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "iacFactory.generateDiagram",
+        "title": "IAC Factory: Generate Mermaid Diagram",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "iacFactory.generatePulumi",
+        "title": "IAC Factory: Generate Pulumi Code",
+        "icon": "$(code)"
+      },
+      {
+        "command": "iacFactory.previewDiagram",
+        "title": "IAC Factory: Preview Diagram",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "iacFactory.refreshComponents",
+        "title": "IAC Factory: Refresh Components",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceLangId == python",
+          "command": "iacFactory.previewDiagram",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "resourceLangId == python",
+          "command": "iacFactory.generateDiagram",
+          "group": "iacFactory"
+        },
+        {
+          "when": "resourceLangId == python",
+          "command": "iacFactory.generatePulumi",
+          "group": "iacFactory"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "iacFactory.refreshComponents",
+          "when": "view == iacFactoryComponents",
+          "group": "navigation"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "iacFactoryComponents",
+          "name": "IAC Factory Components"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "iacFactoryComponents",
+        "contents": "No IAC Factory components found.\n[Open a Python file](command:workbench.action.files.openFile) with iac-factory code to see components."
+      }
+    ],
+    "snippets": [
+      {
+        "language": "python",
+        "path": "./snippets/iac-factory.json"
+      }
+    ],
+    "configuration": {
+      "title": "IAC Factory",
+      "properties": {
+        "iacFactory.autoPreview": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically preview diagrams when opening iac-factory files"
+        },
+        "iacFactory.pythonPath": {
+          "type": "string",
+          "default": "python3",
+          "description": "Path to Python interpreter"
+        },
+        "iacFactory.diagramTheme": {
+          "type": "string",
+          "default": "default",
+          "enum": ["default", "dark", "forest", "neutral"],
+          "description": "Mermaid diagram theme"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "@vscode/vsce": "^2.19.0"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magenticmarketactualskill/iac-factory-vsc"
+  },
+  "license": "MIT"
+}

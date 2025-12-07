@@ -1,0 +1,149 @@
+{
+  "IAC Factory Import": {
+    "prefix": "iacimport",
+    "body": [
+      "from iac_factory import IacFactory, Gateway, Container, Lambda, Cache, Rdms, Archive"
+    ],
+    "description": "Import iac-factory components"
+  },
+  "IAC Factory Initialization": {
+    "prefix": "iacfactory",
+    "body": [
+      "factory = IacFactory(name=\"${1:My Infrastructure}\")"
+    ],
+    "description": "Initialize an IacFactory"
+  },
+  "Gateway Component": {
+    "prefix": "iacgateway",
+    "body": [
+      "${1:gateway} = Gateway(",
+      "    \"${2:API Gateway}\",",
+      "    domain_type=\"${3|Public,Web,Application,Data|}\",",
+      "    technology=\"${4:AWS API Gateway}\"",
+      ")",
+      "factory.add_component(${1:gateway})"
+    ],
+    "description": "Create a Gateway component"
+  },
+  "Container Component": {
+    "prefix": "iaccontainer",
+    "body": [
+      "${1:container} = Container(",
+      "    \"${2:Web App}\",",
+      "    domain_type=\"${3|Public,Web,Application,Data|}\",",
+      "    technology=\"${4:Docker}\"",
+      ")",
+      "factory.add_component(${1:container})"
+    ],
+    "description": "Create a Container component"
+  },
+  "Lambda Component": {
+    "prefix": "iaclambda",
+    "body": [
+      "${1:lambda_fn} = Lambda(",
+      "    \"${2:Function Name}\",",
+      "    domain_type=\"${3|Public,Web,Application,Data|}\",",
+      "    technology=\"${4:AWS Lambda}\"",
+      ")",
+      "factory.add_component(${1:lambda_fn})"
+    ],
+    "description": "Create a Lambda component"
+  },
+  "Cache Component": {
+    "prefix": "iaccache",
+    "body": [
+      "${1:cache} = Cache(",
+      "    \"${2:Session Cache}\",",
+      "    domain_type=\"${3|Public,Web,Application,Data|}\",",
+      "    technology=\"${4:Redis}\"",
+      ")",
+      "factory.add_component(${1:cache})"
+    ],
+    "description": "Create a Cache component"
+  },
+  "RDMS Component": {
+    "prefix": "iacrdms",
+    "body": [
+      "${1:database} = Rdms(",
+      "    \"${2:User Database}\",",
+      "    domain_type=\"${3|Public,Web,Application,Data|}\",",
+      "    technology=\"${4:PostgreSQL}\"",
+      ")",
+      "factory.add_component(${1:database})"
+    ],
+    "description": "Create an RDMS component"
+  },
+  "Archive Component": {
+    "prefix": "iacarchive",
+    "body": [
+      "${1:archive} = Archive(",
+      "    \"${2:Backup Storage}\",",
+      "    domain_type=\"${3|Public,Web,Application,Data|}\",",
+      "    technology=\"${4:S3 Glacier}\"",
+      ")",
+      "factory.add_component(${1:archive})"
+    ],
+    "description": "Create an Archive component"
+  },
+  "Connection": {
+    "prefix": "iacconnection",
+    "body": [
+      "factory.add_connection(",
+      "    source=${1:source_component},",
+      "    destination=${2:destination_component},",
+      "    label=\"${3:Connection description}\",",
+      "    technology=\"${4:HTTPS}\"",
+      ")"
+    ],
+    "description": "Add a connection between components"
+  },
+  "Generate Mermaid Diagram": {
+    "prefix": "iacgenmermaid",
+    "body": [
+      "# Generate and save Mermaid diagram",
+      "factory.save_mermaid_diagram(\"${1:architecture.md}\")",
+      "print(factory.generate_mermaid_diagram())"
+    ],
+    "description": "Generate and save Mermaid diagram"
+  },
+  "Generate Pulumi Code": {
+    "prefix": "iacgenpulumi",
+    "body": [
+      "# Generate and save Pulumi code",
+      "factory.save_pulumi_code(\"${1:infrastructure.py}\")",
+      "print(factory.generate_pulumi_code())"
+    ],
+    "description": "Generate and save Pulumi code"
+  },
+  "Complete IAC Factory Example": {
+    "prefix": "iacexample",
+    "body": [
+      "from iac_factory import IacFactory, Gateway, Container, Rdms, Cache",
+      "",
+      "# Initialize factory",
+      "factory = IacFactory(name=\"${1:My Infrastructure}\")",
+      "",
+      "# Define components",
+      "${2:api_gateway} = Gateway(\"${3:API Gateway}\", domain_type=\"Public\", technology=\"AWS API Gateway\")",
+      "${4:web_app} = Container(\"${5:Web App}\", domain_type=\"Web\", technology=\"React\")",
+      "${6:api_service} = Container(\"${7:API Service}\", domain_type=\"Application\", technology=\"Node.js\")",
+      "${8:database} = Rdms(\"${9:Database}\", domain_type=\"Data\", technology=\"PostgreSQL\")",
+      "",
+      "# Add components",
+      "factory.add_component(${2:api_gateway})",
+      "factory.add_component(${4:web_app})",
+      "factory.add_component(${6:api_service})",
+      "factory.add_component(${8:database})",
+      "",
+      "# Define connections",
+      "factory.add_connection(${4:web_app}, ${2:api_gateway}, \"Makes API calls\", \"HTTPS\")",
+      "factory.add_connection(${2:api_gateway}, ${6:api_service}, \"Routes requests\", \"HTTP\")",
+      "factory.add_connection(${6:api_service}, ${8:database}, \"Queries data\", \"SQL\")",
+      "",
+      "# Generate outputs",
+      "factory.save_mermaid_diagram(\"architecture.md\")",
+      "factory.save_pulumi_code(\"infrastructure.py\")"
+    ],
+    "description": "Complete IAC Factory example"
+  }
+}
